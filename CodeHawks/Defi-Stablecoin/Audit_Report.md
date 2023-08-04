@@ -14,18 +14,16 @@
   - [Qualitative Analysis](#4.3-Qualitative-Analysis)
   - [Decentralization Score](#4.4-Decentralization-Score)
 - [5. Scope](#5.-Scope)
-- [6. Roles](#6.-Roles)
-  - [Roles](#6.1-Roles)
-- [7. System Overview](#7.-System-Overview)
-- [8. Findings](#8.-Findings)
-  - [High](#8.2.-High)
-  - [Medium](#8.3-Medium)
-  - [Low](#8.4-Low)
-  - [Gas Optimization](#8.5-Gas-Optimization)
-  - [Informational](#8.6-Informational)
-- [9. Additional Recommendations](#9.-Additional-Recommendations)
-- [10. Risk Management](#10.-Risk-Management)
-- [11. Conclusion](#11.-Conclusion)
+- [6. System Overview](#7.-System-Overview)
+- [7. Findings](#8.-Findings)
+  - [High](#8.1.-High)
+  - [Medium](#8.2-Medium)
+  - [Low](#8.3-Low)
+  - [Gas Optimization](#8.4-Gas-Optimization)
+  - [Informational](#8.5-Informational)
+- [8. Additional Recommendations](#9.-Additional-Recommendations)
+- [9. Risk Management](#10.-Risk-Management)
+- [10. Conclusion](#11.-Conclusion)
 
 ## 1. About Maroutis
 
@@ -123,16 +121,7 @@ The rating represents how decentralized the protocol is. The rating system opera
 | DSCEngine.sol               | 191  |
 | <b>Total Files: 2</b>       | 236  |
 
-## 6. Roles
-
-### 6.1 Roles
-
-- ## Owner (DSCEngine)
-  -
-- ## Token Owner
-- ## User
-
-## 7. System Overview
+## 6. System Overview
 
 - OracleLib.sol
 
@@ -145,13 +134,13 @@ The rating represents how decentralized the protocol is. The rating system opera
 - DSCEngine.sol
   - This is the core contract of the protocol. It manages the positions of users, handles the deposit and withdrawal of collateral, and manages the minting and burning of DSC. It also handles liquidations.
 
-## 8. Findings
+## 7. Findings
 
 ---
 
 ---
 
-### 8.2 High
+### 7.1 High
 
 ---
 
@@ -228,7 +217,7 @@ To guard against potential flash loan attacks, it is recommended that DSCEngine 
 
 ---
 
-### 8.3 Medium
+### 7.2 Medium
 
 ---
 
@@ -272,7 +261,7 @@ The best way to fix this would be to use the ERC20 function `decimals()` whereve
 
 ---
 
-### 8.4 Low
+### 7.3 Low
 
 ---
 
@@ -317,7 +306,7 @@ require( _to != address(this) );
 
 ---
 
-### 8.5 Gas Optimization
+### 7.4 Gas Optimization
 
 ## [G-01] Unnecessary Health Factor Check in `burnDsc` Function
 
@@ -326,7 +315,7 @@ Furthermore, this check currently prevents users from repaying a fraction of the
 
 ---
 
-### 8.6 Informational
+### 7.5 Informational
 
 ---
 
@@ -373,16 +362,16 @@ Adding appropriate zero-address checks for the tokenAddresses, priceFeedAddresse
 
 ---
 
-## 9. Additional Recommendations
+## 8. Additional Recommendations
 
 - Improving fuzz testing
   - Some additional handlers/conditions can be added to improve fuzz testing and reduce the number of contract reverts.
 - A DAO governance system can be implemented for futur decisions regarding the project.
 
-## 10. Risk Management
+## 9. Risk Management
 
 - To mitigate the risk of a solvency crisis, the protocol could encourage users to use uncorrelated assets as collateral. Assets like ETH and BTC have high correlation, and their prices tend to move in sync. Conversely, many other tokens like USDT, DAI, and PAXG have low correlation. Providing a curated list of well-chosen collateral assets could help users manage their risk and reduce the long-term volatility risk for the protocol.
 
-## 11. Conclusion
+## 10. Conclusion
 
 This project is a well-constructed DeFi stablecoin protocol with considerable effort invested in maintaining code simplicity and following industry best practices. Despite this, the audit identified some areas that require attention to ensure the robustness and security of the protocol. These include the treatment of decimals, solvency risk, the implementation of zero-address checks, ERC20 transfers and the use of the latest solidity version. By addressing these issues and considering the provided recommendations, the protocol can significantly improve its overall security and robustness.
