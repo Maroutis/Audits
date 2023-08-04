@@ -149,17 +149,23 @@ The rating represents how decentralized the protocol is. The rating system opera
 
 ## Summary
 
-A malicious user can impersonate a legitimate seller, manipulating the communication between the buyer and the actual seller. The attacker convinces the buyer to set up the escrow contract with the actual seller's address and a trusted arbiter, then impersonates the buyer to the seller. This allows the attacker to receive the product without paying, leaving the actual buyer at a loss when the seller initiates a dispute.
+An attacker can trick the buyer into creating an escrow contract for the attacker's benefit, leading to a loss for the buyer when the seller initiates a dispute.
 
 ## Vulnerability Detail
 
 This issue arises from a lack of safeguards against impersonation attacks within the system. An attacker can use this to trick buyers into creating escrow contracts for their benefit, leaving unsuspecting buyers at a loss. The scam works because the real seller, seeing a valid contract with their address, may provide the service or product to the malicious actor, mistaking them for the legitimate buyer.
 
+## Impact
+
+The attack scenario can lead to financial losses for the buyer and unnecessary disputes for the seller. Moreover, it can harm the reputation and trustworthiness of the platform.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
+
 ## Recommendation
 
 It is recommended to implement additional security measures to prevent such impersonation attacks. This could include requiring some form of user verification or authentication when initiating a contract. Further, a secure channel for communication and contract initiation can be established between the buyer and seller, potentially using cryptographic techniques to verify each other's identities before the transaction.
-
-Additional safeguards such as education for users about potential scams, alerts for suspicious activity, and procedures for dispute resolution can also be useful in mitigating this type of risk.
 
 ## [H-02] Possibility of Unauthorized Direct Deployment of an Escrow Contract
 
@@ -171,6 +177,14 @@ The design of the Escrow.sol contract allows for its direct deployment bypassing
 
 An ill-intentioned actor could exploit this by creating a contract, injecting a minimal amount of funds, and mimicking the deployment process of the factory. This would expose both the seller and the arbiter to unnecessary risk. Furthermore, the actor could maliciously attribute someone else's address as the buyer, thereby ensnaring unsuspecting users.
 The presence of such rogue contracts could also be leveraged by bad actors to camouflage their illicit activities since these contracts are not managed by the factory.
+
+## Impact
+
+This can expose both the seller and the arbiter to unnecessary risk, and also camouflage illicit activities since these contracts are not managed by the factory.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
 
 ## Recommendation
 
@@ -192,6 +206,14 @@ The `newEscrow()` function in the Factory contract can be invoked by any user to
 
 The unrestricted access to the `newEscrow()` function could potentially lead to spam escrows. The absence of an owner verification mechanism or fees allows users to create escrows for arbitrary addresses.
 
+## Impact
+
+The unrestricted access to the `newEscrow()` function could lead to unnecessary network congestion and the creation of fraudulent escrow contracts.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
+
 ## Recommendation
 
 Consider incorporating owner validations on this function or charge a fee when external users create an escrow to deter spam. In this case, deducting a fee might be more appropriate measure.
@@ -205,6 +227,14 @@ The contract currently doesn't enforce any restrictions or checks concerning the
 ## Vulnerability Detail
 
 The absence of a specified arbiter's address could potentially lead to deadlock situations where a malevolent buyer intentionally abstains from invoking `confirmReceipt()`. Furthermore, if the arbiter's address is identical to that of the seller or buyer, it could facilitate illicit activities such as funds theft or non-payment for services.
+
+## Impact
+
+This could potentially result in a deadlock in the contract and facilitate fraudulent activities.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
 
 ## Recommendation
 
@@ -225,6 +255,14 @@ Funds (Ether or tokens) could be locked in the contract if they are directly sen
 In Ethereum, when Ether is sent to an address without data, it's equivalent to calling a fallback function on a contract located at that address. If the fallback function does not have the functionality to handle incoming Ether, the Ether will be locked in the contract. The same applies for tokens, if a transfer is called instead of the intended transferFrom or any other function, the tokens could be locked.
 
 In this case, if someone mistakenly sends Ether directly to the `Escrow` or `Factory` addresses, these funds would be stuck in the contract without any way of retrieval.
+
+## Impact
+
+This could lead to funds being irretrievably locked in the contract.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
 
 ## Recommendation
 
@@ -270,11 +308,46 @@ function resolveDispute(uint256 buyerAward) external onlyArbiter nonReentrant in
 
 ## [I-01] Update to Latest Solidity Version 0.8.21
 
-The contracts are currently written in Solidity version 0.8.18. To stay up-to-date with the latest improvements, bug fixes, and security enhancements, it's advisable to upgrade to the latest version, 0.8.21.
+## Summary
+
+The contracts are currently written in Solidity version 0.8.18.
+
+## Vulnerability Details
+
+Using an outdated version of Solidity can lead to missed improvements, bug fixes, and security enhancements.
+
+## Impact
+
+The system may lack the latest security patches and improvements.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
+
+Recommendations
+Upgrade to the latest version of Solidity, 0.8.21.
 
 ## [I-02] Better tracking of deployed contracts in the `Factory`
 
-In order for any deployed contract address to be easily retrievable and checked, any new deployed contract address can be added to an empty array or a mapping(BUYER -> Escrow) inside the `factory` contract.
+## Summary
+
+Currently, the deployed contracts are not easily retrievable or checkable.
+
+## Vulnerability Details
+
+The absence of an easy way to retrieve deployed contract addresses can make it difficult to manage and monitor contracts.
+
+## Impact
+
+This could lead to inefficiencies in contract management and oversight.
+
+## Tools Used
+
+A detailed review of the code base was conducted to identify this issue.
+
+## Recommendations
+
+Add new deployed contract addresses to an address array or a mapping( address buyer -> address escrow) inside the `factory` contract.
 
 ## 8. Additional Recommendations
 
