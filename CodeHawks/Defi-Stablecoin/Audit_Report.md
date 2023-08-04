@@ -14,16 +14,16 @@
   - [Qualitative Analysis](#4.3-Qualitative-Analysis)
   - [Decentralization Score](#4.4-Decentralization-Score)
 - [5. Scope](#5.-Scope)
-- [6. System Overview](#7.-System-Overview)
-- [7. Findings](#8.-Findings)
-  - [High](#8.1.-High)
-  - [Medium](#8.2-Medium)
-  - [Low](#8.3-Low)
-  - [Gas Optimization](#8.4-Gas-Optimization)
-  - [Informational](#8.5-Informational)
-- [8. Additional Recommendations](#9.-Additional-Recommendations)
-- [9. Risk Management](#10.-Risk-Management)
-- [10. Conclusion](#11.-Conclusion)
+- [6. System Overview](#6.-System-Overview)
+- [7. Findings](#7.-Findings)
+  - [High](#7.1.-High)
+  - [Medium](#7.2-Medium)
+  - [Low](#7.3-Low)
+  - [Gas Optimization](#7.4-Gas-Optimization)
+  - [Informational](#7.5-Informational)
+- [8. Additional Recommendations](#8.-Additional-Recommendations)
+- [9. Risk Management](#9.-Risk-Management)
+- [10. Conclusion](#10.-Conclusion)
 
 ## 1. About Maroutis
 
@@ -136,22 +136,19 @@ The rating represents how decentralized the protocol is. The rating system opera
 
 ## 7. Findings
 
-
 ### 7.1 High
 
 ---
 
-## [H-01] Potential for an undercollateralized, unliquidated position to trigger a significant liquidity problem
+## [H-01] Possible trigger of a significant liquidity crisis due to an undercollateralized, unliquidated position
 
 ## Summary
 
 The `liquidate()` function allows users to liquidate either the entirety or a portion of the position, provided the collateral value of the position ranges between 200% and 110% of the DSC amount. However, once the value drops below 110% of the DSC amount, the position largely becomes immobile and cannot be liquidated.
-Also, If a user decides to liquidate a fraction of a position, a part of the remaining debt becomes impossible to liquidate due to the 10% bonus. If `unliquidatable` positions like this accumulate, they could lead to a potential insolvency for the entire protocol, which can trigger a mass sell-off.
+If `unliquidatable` positions like this accumulate, they could lead to a potential insolvency for the entire protocol, which can trigger a mass sell-off.
+There is also the case of a sudden drop in the price value.
 
 ## Vulnerability Detail
-
-In the current `liquidate()` function, a user can choose the amount of DSC and the collateral token they wish to liquidate. The debt to be liquidated (equivalent amount in collateral + 10% bonus) is transferred to the liquidator, resulting in the partially liquidated position almost always leading to an irrecoverable debt due to the incurred 10% loss.
-`    uint256 totalCollateralToRedeem = tokenAmountFromDebtCovered + bonusCollateral;`
 
 Once the collateral value falls below 110% of the debt value, the position cannot be fully repaid. In cases where a liquidator decides to repay 100% of the debt, the 10% bonus will cause the following line to revert:
 `   s_collateralDeposited[from][tokenCollateralAddress] -= amountCollateral;`
@@ -226,8 +223,7 @@ The `getUsdValue` function anticipates the argument amount to have 18 decimals. 
 
 ## Vulnerability Detail
 
-Currently, the return value of the function `getUsdValue()` will have the same decimals of the token amount (the price feed price will always have 8 decimals
-since the base currency is USD).
+Currently, the return value of the function `getUsdValue()` will have the same decimals of the token amount (the price feed price will always have 8 decimals since the base currency is USD).
 Suppose a token has fewer than 18 decimals, let's say 12. In such a case, `getUsdValue()` would return an amount in 12 decimal places.
 
 This amount is then used to calculate the health factor in the function `_calculateHealthFactor()` function.
