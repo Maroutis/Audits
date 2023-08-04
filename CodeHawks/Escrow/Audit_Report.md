@@ -324,7 +324,8 @@ The system may lack the latest security patches and improvements.
 
 A detailed review of the code base was conducted to identify this issue.
 
-Recommendations
+## Recommendations
+
 Upgrade to the latest version of Solidity, 0.8.21.
 
 ## [I-02] Better tracking of deployed contracts in the `Factory`
