@@ -85,27 +85,19 @@ I am an independent Quantitative and smart contract security auditor and develop
 
 ## 4. Executive Summary
 
-### 4.1 Summary
-
-| Project Name          | <span style="font-weight:normal">Defi-Stablecoin</span> |
-| --------------------- | ------------------------------------------------------- | --- |
-| <b>Type</b>           | Defi Stablecoin                                         |
-| <b>Commit</b>         | d1c5501aa79320ca0aeaa73f47f0dbc88c7b77e2                |
-| <b>Audit Timeline</b> |                                                         |     |
-
-### 4.2 Issues Found
+### 4.1 Issues Found
 
 | Severity         | Count |
 | ---------------- | ----- |
 | Critical         | 0     |
-| High             | 1     |
+| High             | 2     |
 | Medium           | 1     |
 | Low              | 2     |
 | Gas Optimization | 1     |
 | Informational    | 2     |
-| Total            | 7     |
+| Total            | 8     |
 
-## 4.3 Qualitative Analysis
+## 4.2 Qualitative Analysis
 
 | Metric          | Rating    | Comment                                    |
 | --------------- | --------- | ------------------------------------------ |
@@ -113,7 +105,7 @@ I am an independent Quantitative and smart contract security auditor and develop
 | Documentation   | Moderate  | Functionalities are very well documented   |
 | Best Practices  | Moderate  | Some best practices are implemeted         |
 
-## 4.4 Decentralization Score
+## 4.3 Decentralization Score
 
 The rating represents how decentralized the protocol is. The rating system operates on a scale of 1 -10. 1 Being very centralized, 10 Being very decentralized.
 
