@@ -136,9 +136,6 @@ The rating represents how decentralized the protocol is. The rating system opera
 
 ## 7. Findings
 
----
-
----
 
 ### 7.1 High
 
